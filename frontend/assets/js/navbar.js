@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Load the navbar HTML
     const navbar = document.getElementById('navbar');
     navbar.innerHTML = `
     <nav>
@@ -18,24 +17,21 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('.nav-discovery').classList.add('active');
     }
 
-    // Add event listener for logout button
     document.getElementById('logoutBtn').addEventListener('click', async function() {
         const response = await fetch('/api/logout', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('refreshToken')}` // Include the access token if needed
+                'Authorization': `Bearer ${localStorage.getItem('refreshToken')}`
             }
         });
 
         if (response.ok) {
-            // Clear tokens and user information from local storage
             localStorage.removeItem('accessToken');
             localStorage.removeItem('refreshToken');
-            localStorage.removeItem('role'); // Assuming you have a role stored
+            localStorage.removeItem('role');
             localStorage.removeItem('Profile');
-            // Redirect to the login page or home page
-            window.location.href = '/'; // Redirect to the home page or login page
+            window.location.href = '/';
         } else {
             console.error('Logout failed:', response.statusText);
             alert('Logout failed. Please try again.');

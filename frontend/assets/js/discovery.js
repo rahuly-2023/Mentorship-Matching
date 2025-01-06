@@ -32,9 +32,8 @@ document.addEventListener('DOMContentLoaded',()=>{
 
         if (response.ok) {
             const data = await response.json();
-            // allRequests = [...data.sentRequests, ...data.receivedRequests]; // Combine sent and received requests
             allRequests = [...data.sentRequests, ...data.receivedRequests].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-            displayRequests(allRequests); // Display requests
+            displayRequests(allRequests);
         } else {
             console.error('Error fetching requests:', response.statusText);
         }
@@ -43,12 +42,11 @@ document.addEventListener('DOMContentLoaded',()=>{
 
     function displayRequests(requests) {
         const requestList = document.getElementById('requestList');
-        requestList.innerHTML = ''; // Clear the request list before populating
+        requestList.innerHTML = '';
 
-        // Calculate the start and end index for pagination
         const startIndex = (currentPageRequests - 1) * requestsPerPage;
         const endIndex = startIndex + requestsPerPage;
-        const paginatedRequests = requests.slice(startIndex, endIndex); // Get requests for the current page
+        const paginatedRequests = requests.slice(startIndex, endIndex);
 
         if(paginatedRequests.length==0){
             const noRequests = document.createElement('p');
@@ -126,15 +124,9 @@ document.addEventListener('DOMContentLoaded',()=>{
 
                 
             });
-
-            // Add event listeners for accept, reject, and delete buttons
-
-            
-
             requestList.appendChild(requestCard);
         });
 
-        // Update pagination buttons visibility
         document.getElementById('prevButtonRequests').style.display = currentPageRequests === 1 ? 'none' : 'inline';
         document.getElementById('nextButtonRequests').style.display = currentPageRequests >= Math.ceil(requests.length / requestsPerPage) ? 'none' : 'inline';
         
@@ -236,7 +228,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         });
 
         if (response.ok) {
-            fetchRequests(); // Refresh the requests list
+            fetchRequests();
         } else {
             console.error('Error updating request status:', response.statusText);
         }
@@ -251,7 +243,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         });
 
         if (response.ok) {
-            fetchRequests(); // Refresh the requests list
+            fetchRequests();
         } else {
             console.error('Error deleting request:', response.statusText);
         }
@@ -303,8 +295,8 @@ document.addEventListener('DOMContentLoaded',()=>{
 
         if (response.ok) {
             const data = await response.json();
-            allUsers = data.users; // Store all users
-            displayUsers(allUsers); // Display users on the first load
+            allUsers = data.users;
+            displayUsers(allUsers);
         } else {
             console.error('Error fetching users:', response.statusText);
         }
@@ -312,12 +304,11 @@ document.addEventListener('DOMContentLoaded',()=>{
 
     function displayUsers(users) {
         const userList = document.getElementById('userList');
-        userList.innerHTML = ''; // Clear the user list before populating
+        userList.innerHTML = '';
 
-        // Calculate the start and end index for pagination
         const startIndex = (currentPage - 1) * usersPerPage;
         const endIndex = startIndex + usersPerPage;
-        const paginatedUsers = users.slice(startIndex, endIndex); // Get users for the current page
+        const paginatedUsers = users.slice(startIndex, endIndex);
 
         paginatedUsers.forEach(user => {
             const userCard = document.createElement('div');
@@ -355,7 +346,6 @@ document.addEventListener('DOMContentLoaded',()=>{
             }
         });
 
-        // Update pagination buttons visibility
         document.getElementById('prevButton').style.display = currentPage === 1 ? 'none' : 'inline';
         document.getElementById('nextButton').style.display = currentPage >= Math.ceil(users.length / usersPerPage) ? 'none' : 'inline';
     }
@@ -423,8 +413,6 @@ document.addEventListener('DOMContentLoaded',()=>{
         document.getElementById('btn-section2').classList.add('active');
     });
 
-    // Display dummy data on page load
-    // displayUsers(allUsers);
 
 
     document.getElementById('clearFilter').addEventListener('click', function(){
@@ -484,8 +472,6 @@ document.addEventListener('DOMContentLoaded',()=>{
             if (data.success) {
                 showAlert('Mentorship request sent successfully!','success');
                 fetchRequests();
-                // Optionally refresh the request list
-                // location.reload();
             } else {
                 showAlert('Failed to send request: ' + data.message);
             }
@@ -500,25 +486,23 @@ document.addEventListener('DOMContentLoaded',()=>{
     async function makeApiCall(url, options) {
         let accessToken = localStorage.getItem('accessToken');
     
-        // Check if the token is expired
         if (isTokenExpired(accessToken)) {
-            accessToken = await refreshAccessToken(); // Refresh the token
+            accessToken = await refreshAccessToken();
         }
     
-        // Set the Authorization header with the (possibly new) access token
         options.headers = {
             ...options.headers,
             'Authorization': `Bearer ${accessToken}`
         };
     
-        return fetch(url, options); // Make the API call
+        return fetch(url, options);
     }
     
     function isTokenExpired(token) {
-        if (!token) return true; // If no token, consider it expired
-        const payload = JSON.parse(atob(token.split('.')[1])); // Decode the token
+        if (!token) return true;
+        const payload = JSON.parse(atob(token.split('.')[1]));
         const now = Math.floor(Date.now() / 1000); // Current time in seconds
-        return payload.exp < now; // Check if the token is expired
+        return payload.exp < now;
     }
     
     async function refreshAccessToken() {
@@ -537,7 +521,7 @@ document.addEventListener('DOMContentLoaded',()=>{
             return data.accessToken; // Return the new access token
         } else {
             showAlert('Session expired. Please log in again.');
-            window.location.href = '/'; // Redirect to login page
+            window.location.href = '/';
         }
     }
 
@@ -567,12 +551,10 @@ document.addEventListener('DOMContentLoaded',()=>{
 
         alertContainer.appendChild(alert);
 
-        // Automatically remove the alert after 3 seconds
         setTimeout(() => {
             alert.remove();
         }, 3000);
 
-        // Remove the alert when the close button is clicked
         alert.querySelector('.alert-close').addEventListener('click', () => {
             alert.remove();
         });

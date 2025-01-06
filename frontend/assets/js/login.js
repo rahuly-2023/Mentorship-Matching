@@ -1,5 +1,5 @@
 if (localStorage.getItem('accessToken')) {
-    window.location.href = '/discovery'; // Redirect to discovery page if logged in
+    window.location.href = '/discovery';
 }
 
 
@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const email = document.getElementById('login_email').value.trim();
             const password = document.getElementById('login_password').value.trim();
             
-            // Send login data to the server
             const response = await fetch('/api/login', {
                 method: 'POST',
                 headers: {
@@ -40,10 +39,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const data = await response.json();
             if (data.success) {
-                // Store tokens in local storage
                 localStorage.setItem('accessToken', data.accessToken);
                 localStorage.setItem('refreshToken', data.refreshToken);
-                // localStorage.setItem('Email',email);
                 localStorage.setItem('Profile',data.profile);
                 if(data.profile){
                     localStorage.setItem('role',data.role);

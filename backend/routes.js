@@ -1,5 +1,5 @@
 const express = require('express');
-const { authenticateToken } = require('./middleware'); // Import the authentication middleware
+const { authenticateToken } = require('./middleware');
 const router = express.Router();
 const db = require('./db'); // Database connection
 const bcrypt = require('bcrypt');
@@ -20,7 +20,7 @@ router.post('/register', async (req, res) => {
         const [result] = await db.query('INSERT INTO users (email, password) VALUES ( ?, ?)', [email, hashedPassword]);
         res.status(201).json({ success: true, message: 'User  registered successfully!' });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Registration failed: ' + error.message });
+        res.status(500).json({ success: false, message: 'Registration failed: '});
     }
 });
 
@@ -42,12 +42,10 @@ router.post('/login', async (req, res) => {
                 const accessToken=jwt.sign({email:user.email}, process.env.ACCESS_TOKEN_SECRET, {expiresIn:'15m'});
                 const refreshToken = jwt.sign({ email: user.email }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
 
-                // Store the refresh token in the database
                 const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
                 await db.query('INSERT INTO refresh_tokens (user_email, token, expires_at) VALUES (?, ?, ?)', [user.email, refreshToken, expiresAt]);
 
                 const [profile]=await db.query('Select * from profiles where user_email=?',[email]);
-                console.log(profile);
                 
                 if(profile.length>0){
                     const role=profile[0].role;
@@ -64,13 +62,12 @@ router.post('/login', async (req, res) => {
             res.status(404).json({ success: false, message: 'User not registered. Please Sign Up' });
         }
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Login failed: Email id or Password is wrong '+error });
+        res.status(500).json({ success: false, message: 'Login failed: Email id or Password is wrong '});
     }
 });
 
 
 
-// Refresh token endpoint
 router.post('/token', async (req, res) => {
     const { token } = req.body;
     if (!token) return res.sendStatus(403); // Forbidden
@@ -94,11 +91,8 @@ router.post('/token', async (req, res) => {
 
 
 
-
-
-// Get user profile data
 router.get('/profile', authenticateToken, async (req, res) => {
-    const email = req.email; // Get the logged-in user's ID
+    const email = req.email; // Get the logged-in user's Email
 
     try {
         const [rows] = await db.query('SELECT * FROM profiles WHERE user_email = ?', [email]);
@@ -108,48 +102,43 @@ router.get('/profile', authenticateToken, async (req, res) => {
             res.json({ success: false, message: 'Profile not found' });
         }
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Failed to retrieve profile: ' + error.message });
+        res.status(500).json({ success: false, message: 'Failed to retrieve profile: '});
     }
 });
 
 
 
-// Profile Management
 router.post('/profile', authenticateToken, async (req, res) => {
     const {name, role, skills, interests, bio } = req.body;
-    const email = req.email; // Assuming you have a way to get the logged-in user's ID
+    const email = req.email;
     
     try {
         // Check if the profile exists
         const [rows] = await db.query('SELECT * FROM profiles WHERE user_email = ?', [email]);
         
         if (rows.length > 0) {
-            // Update existing profile
             await db.query('UPDATE profiles SET name=?, role = ?, skills = ?, interests = ?, bio = ? WHERE user_email = ?', 
                 [name, role, JSON.stringify(skills), JSON.stringify(interests), bio, email]);
             res.json({ success: true, message: 'Profile updated successfully!' });
         } else {
-            // Create a new profile if it doesn't exist
             await db.query('INSERT INTO profiles (user_email,name, role, skills, interests, bio) VALUES (?, ?, ?, ?, ?, ?)', 
                 [email,name, role, JSON.stringify(skills), JSON.stringify(interests), bio]);
             res.json({ success: true, message: 'Profile created successfully!' });
         }
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Failed to create profile: ' + error.message });
+        res.status(500).json({ success: false, message: 'Failed to create profile: '});
     }
 });
 
 
 
-// Logout endpoint
 router.post('/logout', async (req, res) => {
     try{
         const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
-        console.log("token to delete ", token);
         await db.query('DELETe FROM refresh_tokens WHERE token = ?', [token]);
         res.status(200).json({ message: 'Logged out successfully' });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Failed to Logout ' + error.message });
+        res.status(500).json({ success: false, message: 'Failed to Logout '});
     }
 });
 
@@ -158,12 +147,10 @@ router.post('/logout', async (req, res) => {
 
 
 
-// Get all users for discovery
 router.get('/users', authenticateToken, async (req, res) => {
-    const Email = req.email; // Get the logged-in user's email from the JWT
+    const Email = req.email;
     
     try {
-        // Fetch all users except the logged-in user
         const [users] = await db.query(`
             SELECT u.user_id, p.name, p.role, p.skills, p.interests, p.bio 
             FROM users u 
@@ -172,21 +159,19 @@ router.get('/users', authenticateToken, async (req, res) => {
 
         res.json({ success: true, users });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Failed to retrieve ' + error.message });
+        res.status(500).json({ success: false, message: 'Failed to retrieve '});
     }
 });
 
-// Get all requests
+
 router.get('/requests', authenticateToken, async (req, res) => {
-    const Email = req.email; // Get the logged-in user's email from the JWT
+    const Email = req.email;
     try {
-        // Fetch mentorship requests sent by the user
         const [sentRequests] = await db.query(`
             SELECT skills, interests, request_id, name, m.mentor_email, status, m.created_at 
             FROM mentorship_requests m join profiles p on m.mentor_email=p.user_email
             WHERE mentee_email = ?`, [Email]);
 
-        // Fetch mentorship requests received by the user
         const [receivedRequests] = await db.query(`
             SELECT skills, interests, request_id, name, m.mentee_email, status, m.created_at 
             FROM mentorship_requests m join profiles p on m.mentee_email=p.user_email 
@@ -194,35 +179,31 @@ router.get('/requests', authenticateToken, async (req, res) => {
 
         res.json({ success: true, sentRequests, receivedRequests });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Failed to retrieve requests: ' + error.message });
+        res.status(500).json({ success: false, message: 'Failed to retrieve requests: '});
     }
 });
 
 
 
-// Update request status
 router.patch('/requests/:id',authenticateToken, async(req, res) => {
     const requestId = parseInt(req.params.id);
-    console.log(requestId);
     const { status } = req.body;
-    console.log(status)
     
     try{
         await db.query(`Update mentorship_requests set status=? where request_id=?`,[status,requestId]);
         res.status(200).json({ message: 'Request updated successfully' });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Failed to Update request ' + error.message });
+        res.status(500).json({ success: false, message: 'Failed to Update request '});
     }
 });
 
-// Delete request
 router.delete('/requests/:id',authenticateToken, async(req, res) => {
     const requestId = parseInt(req.params.id);
     try{
         await db.query(`Delete from mentorship_requests where request_id=?`,[requestId]);
         res.status(200).json({ message: 'Request deleted successfully' });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Failed to Delete request ' + error.message });
+        res.status(500).json({ success: false, message: 'Failed to Delete request'});
     }
 });
 
@@ -233,15 +214,14 @@ router.delete('/requests/:id',authenticateToken, async(req, res) => {
 
 
 router.post('/mentorship-request', authenticateToken, async (req, res) => {
-    const { mentorID } = req.body; // Get mentor's email from the request body
-    const menteeEmail = req.email; // Get mentee's email from the JWT
+    const { mentorID } = req.body;
+    const menteeEmail = req.email;
 
     if (!mentorID) {
         return res.status(400).json({ success: false, message: 'Mentor email is required.' });
     }
 
     try {
-        // Check if a mentorship request already exists
         let [email] = await db.query('select email from users where user_id=?',[mentorID]);
         email=email[0].email;
         const [existingRequest] = await db.query('SELECT * FROM mentorship_requests WHERE mentor_email = ? AND mentee_email = ?', [email, menteeEmail]);
@@ -249,9 +229,8 @@ router.post('/mentorship-request', authenticateToken, async (req, res) => {
             return res.status(400).json({ success: false, message: 'You have already sent a mentorship request to this mentor.' });
         }
 
-        // Insert a new mentorship request into the database
         await db.query('INSERT INTO mentorship_requests (mentor_email, mentee_email, status) VALUES (?, ?, ?)', 
-            [email, menteeEmail, 'pending']); // Assuming 'pending' is the initial status
+            [email, menteeEmail, 'pending']);
 
         res.json({ success: true, message: 'Mentorship request sent successfully!' });
     } catch (error) {
@@ -273,12 +252,10 @@ router.post('/mentorship-request', authenticateToken, async (req, res) => {
 
 
 
-// Accept a mentorship request
 router.post('/mentorship-request/accept', authenticateToken, async (req, res) => {
-    const { mentorEmail, menteeEmail } = req.body; // Get mentor's and mentee's emails from the request body
+    const { mentorEmail, menteeEmail } = req.body;
 
     try {
-        // Update the status of the mentorship request to 'accepted'
         await db.query('UPDATE mentorship_requests SET status = ? WHERE mentor_email = ? AND mentee_email = ?', 
             ['accepted', mentorEmail, menteeEmail]);
 
@@ -288,12 +265,11 @@ router.post('/mentorship-request/accept', authenticateToken, async (req, res) =>
     }
 });
 
-// Reject a mentorship request
+
 router.post('/mentorship-request/reject', authenticateToken, async (req, res) => {
-    const { mentorEmail, menteeEmail } = req.body; // Get mentor's and mentee's emails from the request body
+    const { mentorEmail, menteeEmail } = req.body;
 
     try {
-        // Update the status of the mentorship request to 'declined'
         await db.query('UPDATE mentorship_requests SET status = ? WHERE mentor_email = ? AND mentee_email = ?', 
             ['declined', mentorEmail, menteeEmail]);
 
@@ -314,12 +290,10 @@ router.post('/mentorship-request/reject', authenticateToken, async (req, res) =>
 
 
 
-// Delete a mentorship request
 router.delete('/mentorship-request', authenticateToken, async (req, res) => {
-    const { mentorEmail, menteeEmail } = req.body; // Get mentor's and mentee's emails from the request body
+    const { mentorEmail, menteeEmail } = req.body;
 
     try {
-        // Delete the mentorship request from the database
         await db.query('DELETE FROM mentorship_requests WHERE mentor_email = ? AND mentee_email = ?', 
             [mentorEmail, menteeEmail]);
 
@@ -339,7 +313,6 @@ router.post('/sendChatMessage', authenticateToken, async(req,res)=>{
     const SenderEmail = req.email;
 
     try{
-        console.log(Id, role, message);
         let email;
         if(role=='mentor'){
             email=await db.query('Select mentee_email as email from mentorship_requests where request_id=?',[Id]);
@@ -354,8 +327,6 @@ router.post('/sendChatMessage', authenticateToken, async(req,res)=>{
 
         const senderName=SenderName[0].Name;
         const receiverName=ReceiverName[0].Name;
-        console.log("SenderName ",senderName);
-        console.log("ReceiverName ",receiverName);
 
         const transporter = nodemailer.createTransport({
             service:"gmail",
@@ -368,9 +339,9 @@ router.post('/sendChatMessage', authenticateToken, async(req,res)=>{
         });
 
         const mailOptions = {
-            from: 'mentorshipmatching@gmail.com', // sender address
-            to: emailId, // list of receivers
-            subject: "New Message from Mentorship Platform", // Subject line
+            from: 'mentorshipmatching@gmail.com',
+            to: emailId,
+            subject: "New Message from Mentorship Platform",
             text: `Hello ${receiverName}, you have a new message from ${senderName}:\n\n ${message}`
         };
 
