@@ -1,0 +1,403 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background: #f7f7ff;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #007bff;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    margin: 0;
+}
+
+main {
+    padding: 20px;
+}
+
+/* Section Styles */
+section {
+    margin: 20px 0;
+}
+
+h2 {
+    color: #333;
+}
+
+/* User List Styles */
+.user-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between user cards */
+}
+
+.user-profile {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    flex: 1 1 calc(33.333% - 20px); /* Responsive card width */
+    min-width: 250px; /* Minimum width for cards */
+}
+
+.user-profile h3 {
+    margin: 0 0 10px;
+    color: #007bff; /* Blue color for usernames */
+}
+
+.user-profile p {
+    margin: 5px 0;
+}
+
+/* Button Styles */
+.mentorship-request-btn {
+    background-color: #28a745; /* Green background */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.mentorship-request-btn:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+/* Footer Styles */
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+} */
+.button-container {
+    display: flex;
+    margin-bottom: 20px;
+    /* border: 1px solid #0056b3; */
+}
+.buttons{
+    margin: auto;
+}
+.button-container button {
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+.button-container button.active {
+    background-color: #0056b3;
+}
+.section-container {
+    /* border: 1px solid #0056b3; */
+    box-shadow :0 2px 6px 0 rgb(218 218 253 / 65%), 0 2px 6px 0 rgb(206 206 238 / 54%);
+    border-radius: 5px;
+    margin: auto;
+    width: 80%;
+    overflow: hidden;
+    position: relative;
+}
+.sections {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+.section {
+    min-width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* blackbox */
+
+
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+.button-container{
+    justify-content: center;
+}
+.button-container button {
+    transition: background-color 0.3s;
+}
+.button-container button.active {
+    background-color: #0056b3;
+}
+.sections {
+    transition: transform 0.5s ease-in-out;
+}
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+}
+.skill {
+    display: inline-block;
+    padding: 2px 6px;
+    margin-left: 4px;
+    /* background-color: #e0e0e0; */
+    background-color: #f7f7ff;
+    border-radius: 4px;
+    font-size: 0.875rem;
+}
+.mentor-card {
+    background-color: #d1e7dd;
+}
+.mentee-card {
+    background-color: #f8d7da;
+}
+/* #clearFilter{
+    margin-bottom: 20px;
+    background-color: rgb(236, 100, 100);
+    padding: 5px;
+    border-radius: 5px;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Section-2 blackbox */
+
+.mentor-card {
+    background-color: #d1e7dd;
+}
+.mentee-card {
+    background-color: #f8d7da;
+}
+.accepted-card {
+    background-color: #d4edda;
+}
+.rejected-card {
+    background-color: #f8d7da;
+}
+.pending-card {
+    background-color: #fff3cd;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.legend {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+.legend-circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+.legend-mentor {
+    background-color: #d1e7dd;
+}
+.legend-mentee {
+    background-color: #f8d7da;
+}
+
+.legend-accepted {
+    background-color: #d4edda;
+}
+.legend-declined {
+    background-color: #f8d7da;
+}
+.legend-pending {
+    background-color: #fff3cd;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.NoRequest{
+    /* border :1px solid blue; */
+    font-size: large;
+}
+
+
+
+
+
+
+
+
+
+
+
+.alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    padding: 15px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 300px;
+    max-width: 500px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+.alert-close {
+    cursor: pointer;
+    margin-left: 15px;
+}

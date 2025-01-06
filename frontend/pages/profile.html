@@ -1,0 +1,58 @@
+<html>
+<head>
+    <script src="../assets/js/profile.js"></script>
+    <script src="../assets/js/navbar.js"></script>
+    <title>Profile Setup</title>
+    <link rel="stylesheet" href="../assets/css/profile.css">
+    <link rel="stylesheet" href="../assets/css/navbar.css">
+</head>
+<body>
+    <div id="navbar"></div>
+    <h1>Profile Setup</h1>
+    <form id="profileForm">
+        <div class="container">
+            <div class="left">
+                <div class="photo">
+                    <img class="profile-img" src="	https://bootdey.com/img/Content/avatar/avatar6.png" alt="profile" width="150">
+                </div>
+                <div class="name">
+                   
+                </div>  
+                <div class="role">
+                    <div class="role-mentor">Mentor</div>
+                    <div class="role-mentee">Mentee</div>
+                </div>
+            </div>
+
+
+
+
+            <div class="right">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your name">
+                <label for="role">Role</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="role" value="mentor"> Mentor</label>
+                    <label><input type="radio" name="role" value="mentee"> Mentee</label>
+                </div>
+    
+                <label for="skills">Skills</label>
+                <textarea id="skills" name="skills" rows="2" placeholder="Enter your skills, separated by commas"></textarea>
+    
+                <label for="interests">Interests</label>
+                <textarea id="interests" name="interests" rows="2" placeholder="Enter your interests, separated by commas"></textarea>
+    
+                <label for="bio">Bio</label>
+                <textarea id="bio" name="bio" rows="2" placeholder="Write a brief bio about yourself"></textarea>
+                
+                <div class="submit-button">
+                    <button type="submit" class="submit-btn">Save Profile</button>
+                </div>
+            </div>
+            
+            
+        </div>
+    </form>
+    <div id="alertContainer"></div>
+</body>
+</html>

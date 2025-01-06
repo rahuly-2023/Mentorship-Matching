@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../assets/js/discovery.js"></script>
+    <link rel="stylesheet" href="../assets/css/navbar.css">
+    <script src="../assets/js/navbar.js"></script> <!-- Include the navbar script -->
+    <link rel="stylesheet" href="../assets/css/discovery.css">
+    <title>User Discovery</title>
+
+   
+
+</head>
+<body>
+    <div id="navbar"></div> <!-- Placeholder for the navbar -->
+    <main>
+        <div class="button-container flex mb-5">
+            <button id="btn-section1" class="px-4 py-2 mx-2 bg-blue-500 text-white rounded active">Discover Users</button>
+            <button id="btn-section2" class="px-4 py-2 mx-2 bg-blue-500 text-white rounded">My Requests</button>
+        </div>
+        <div class="section-container w-4/5 overflow-hidden relative">
+            <div class="sections flex">
+                <div class="section w-full box-border p-5 bg-white shadow-md" id="section1">
+                    <h2 class="text-2xl font-bold mb-4">Discover Users</h2>
+                    <div class="mb-4">
+                        <h3 class="text-xl font-semibold mb-2">Filter</h3>
+                        <div class="p-4 border rounded">
+                            <div class="flex flex-wrap gap-4 mb-4">
+                                <div class="flex-1">
+                                    <label for="roleFilter" class="block mb-2">Role:</label>
+                                    <select id="roleFilter" class="p-2 border rounded w-full">
+                                        <option value="">All</option>
+                                        <option value="mentor">Mentor</option>
+                                        <option value="mentee">Mentee</option>
+                                    </select>
+                                </div>
+                                <div class="flex-1">
+                                    <label for="skillsFilter" class="block mb-2">Skills:</label>
+                                    <input type="text" id="skillsFilter" class="p-2 border rounded w-full" placeholder="Enter skills separated by commas">
+                                </div>
+                                <div class="flex-1">
+                                    <label for="interestsFilter" class="block mb-2">Interests:</label>
+                                    <input type="text" id="interestsFilter" class="p-2 border rounded w-full" placeholder="Enter interests separated by commas">
+                                </div>
+                            </div>
+                            <button id="clearFilter" class="px-4 py-2 bg-red-500 text-white rounded">Clear Filter</button>
+                        </div>
+                    </div>
+
+
+
+
+                    <div id="userList" class="user-list grid grid-cols-1 gap-4"></div>
+
+                    <div class="legend">
+                        <div class="flex items-center gap-2">
+                            <div class="legend-circle legend-mentor"></div>
+                            <span>Mentor</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="legend-circle legend-mentee"></div>
+                            <span>Mentee</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between mt-4">
+                        <button id="prevButton" class="px-4 py-2 bg-blue-500 text-white rounded">Previous</button>
+                        <button id="nextButton" class="px-4 py-2 bg-blue-500 text-white rounded">Next</button>
+                    </div>
+                </div>
+                <div class="section w-full box-border p-5 bg-white shadow-md hidden" id="section2">
+                    <h2 class="text-2xl font-bold mb-4">My Requests</h2>
+                    <div class="mb-4">
+                        <h3 class="text-xl font-semibold mb-2">Filter</h3>
+                        <div class="p-4 border rounded">
+                            <div class="flex items-center gap-4 mb-4">
+                                <label for="statusFilter" class="block mb-2">Status:</label>
+                                <select id="statusFilter" class="p-2 border rounded w-full">
+                                    <option value="">All</option>
+                                    <option value="accepted">Accepted</option>
+                                    <option value="declined">Declined</option>
+                                    <option value="pending">Pending</option>
+                                </select>
+                            </div>
+                            <button id="clearFilterRequests" class="px-4 py-2 bg-red-500 text-white rounded">Clear Filter</button>
+                        </div>
+                    </div>
+                    <div id="requestList" class="request-list grid grid-cols-1 gap-4"></div>
+                    
+                    <div class="legend">
+                        <div class="flex items-center gap-2">
+                            <div class="legend-circle legend-accepted"></div>
+                            <span>Accepted</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="legend-circle legend-declined"></div>
+                            <span>Declined</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="legend-circle legend-pending"></div>
+                            <span>Pending</span>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between mt-4">
+                        <button id="prevButtonRequests" class="px-4 py-2 bg-blue-500 text-white rounded">Previous</button>
+                        <button id="nextButtonRequests" class="px-4 py-2 bg-blue-500 text-white rounded">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="modal" id="userModal">
+            <div class="modal-content">
+                <h3 class="text-2xl font-bold mb-2" id="modalName">User Name</h3>
+                <p class="mb-2" id="modalSkills">Skills: </p>
+                <p class="mb-2" id="modalBio">Bio: </p>
+                <p class="mb-2" id="modalInterests">Interests: </p>
+                <button class="px-4 py-2 bg-blue-500 text-white rounded mentorshipBtn" id="mentorshipRequestBtn">Send Mentorship Request</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded mt-2" id="closeModalBtn">Close</button>
+            </div>
+        </div>
+
+
+
+
+        <div class="modal" id="requestModal">
+            <div class="modal-content">
+                <h3 class="text-2xl font-bold mb-2" id="modal-Name">User Name</h3>
+                <p class="mb-2" id="modal-CreatedAt">Created At: </p>
+                <p class="mb-2" id="modal-Skills">Skills: </p>
+                <p class="mb-2" id="modal-Interests">Interests: </p>
+                <span id="modal-Actions" class="mt-4"></span>
+                    <button class="px-4 py-2 bg-red-500 text-white rounded mt-2" id="close-ModalBtn">Close</button>
+            </div>
+        </div>
+
+
+        <div class="modal" id="chatModal">
+            <div class="modal-content">
+                <h3 class="text-2xl font-bold mb-2">Send Message</h3>
+                <textarea id="chatMessage" class="w-full p-2 border rounded mb-4" rows="4" placeholder="Enter your message"></textarea>
+                <button class="px-4 py-2 bg-blue-500 text-white rounded" id="sendChatBtn">Send</button>
+                <button class="px-4 py-2 bg-red-500 text-white rounded mt-2" id="closeChatModalBtn">Close</button>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div id="alertContainer"></div>
+
+
+
+
+
+        
+    </main>
+    <!-- <footer>
+        <p>&copy; 2023 Mentorship Matching Platform</p>
+    </footer> -->
+</body>
+</html>
