@@ -64,7 +64,7 @@ router.post('/login', async (req, res) => {
             res.status(404).json({ success: false, message: 'User not registered. Please Sign Up' });
         }
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Login failed: Email id or Password is wrong' });
+        res.status(500).json({ success: false, message: 'Login failed: Email id or Password is wrong '+error });
     }
 });
 
