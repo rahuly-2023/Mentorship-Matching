@@ -5,6 +5,7 @@ const db = require('./db'); // Database connection
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require("nodemailer");
+require('dotenv').config();
 
 
 router.post('/register', async (req, res) => {
