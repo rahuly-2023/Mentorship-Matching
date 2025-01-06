@@ -15,7 +15,7 @@ router.post('/register', async (req, res) => {
             return res.status(400).json({ success: false, message: 'Password is required' });
         }
         
-        const hashedPassword = await bcrypt.hash(password, 2);
+        const hashedPassword = await bcrypt.hash(password, 10);
         const [result] = await db.query('INSERT INTO users (email, password) VALUES ( ?, ?)', [email, hashedPassword]);
         res.status(201).json({ success: true, message: 'User  registered successfully!' });
     } catch (error) {
