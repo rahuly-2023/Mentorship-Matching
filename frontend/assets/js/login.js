@@ -44,9 +44,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.setItem('accessToken', data.accessToken);
                 localStorage.setItem('refreshToken', data.refreshToken);
                 // localStorage.setItem('Email',email);
-                localStorage.setItem('role',data.role);
                 localStorage.setItem('Profile',data.profile);
                 if(data.profile){
+                    localStorage.setItem('role',data.role);
                     window.location.href = '/discovery';
                 }
                 else{

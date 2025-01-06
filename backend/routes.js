@@ -48,13 +48,13 @@ router.post('/login', async (req, res) => {
 
                 const [profile]=await db.query('Select * from profiles where user_email=?',[email]);
                 console.log(profile);
-                const role=profile[0].role;
-
+                
                 if(profile.length>0){
+                    const role=profile[0].role;
                     res.json({success:true, message: 'Login successful!' ,accessToken,refreshToken,profile:true, role});
                 }
                 else{
-                    res.json({ success: true, message: 'Login successful!', accessToken, refreshToken, profile:false, role});
+                    res.json({ success: true, message: 'Login successful!', accessToken, refreshToken, profile:false});
                 }
                 
             } else {

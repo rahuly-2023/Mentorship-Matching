@@ -101,6 +101,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const data = await response.json();
                 if (data.success) {
                     localStorage.setItem('Profile','true');
+                    localStorage.setItem('role',role.value);
                     showAlert('Profile saved successfully!','success');
                     // Optionally redirect to another page
                     // window.location.href = '/discovery_page'; // Redirect to discovery page
