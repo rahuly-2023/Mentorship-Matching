@@ -145,6 +145,7 @@ router.post('/profile', authenticateToken, async (req, res) => {
 router.post('/logout', async (req, res) => {
     try{
         const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+        console.log("token to delete ", token);
         await db.query('DELETe FROM refresh_tokens WHERE token = ?', [token]);
         res.status(200).json({ message: 'Logged out successfully' });
     } catch (error) {
