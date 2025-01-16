@@ -51,10 +51,8 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const skills = document.getElementById('skills').value.split(',').filter(skill => skill.trim() !== '').map((skill) => skill.trim());
                 const interests = document.getElementById('interests').value.split(',').filter(skill => skill.trim() !== '').map((interest) => interest.trim());
                 const bio = document.getElementById('bio').value;
-                console.log(skills);
 
                 if (name.length < 3 || name.length > 50) {
-                    console.log("name");
                     showAlert('Name should not be empty');
                     return;
                 }

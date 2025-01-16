@@ -351,7 +351,6 @@ router.post('/sendChatMessage', authenticateToken, async(req,res)=>{
                 console.log(error);
                 res.status(500).json({ message: 'Error sending email' });
             } else {
-                console.log('Email sent: ' + info.response);
                 res.json({ message: 'Message sent successfully' });
             }
         });
