@@ -33,6 +33,9 @@ document.addEventListener('DOMContentLoaded', async function() {
                 document.getElementById('interests').value = interests || '';
                 document.getElementById('bio').value = data.profile.bio || '';
             }
+            else{
+                showAlert("Fill all the details first");
+            }
         } catch (error) {
             console.error('Error fetching profile data:', error);
             showAlert('An error occurred while fetching profile data.','error');
