@@ -1,4 +1,5 @@
-if (localStorage.getItem('accessToken')) {
+const accessToken=localStorage.getItem('accessToken');
+if (accessToken) {
     window.location.href = '/discovery';
 }
 

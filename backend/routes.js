@@ -43,10 +43,11 @@ router.post('/login', async (req, res) => {
                 const refreshToken = jwt.sign({ email: user.email }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
 
                 const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
-                await db.query('INSERT INTO refresh_tokens (user_email, token, expires_at) VALUES (?, ?, ?)', [user.email, refreshToken, expiresAt]);
+                const formattedExpiresAt = expiresAt.toISOString().slice(0, 19).replace('T', ' '); // Format to 'YYYY-MM-DD HH:MM:SS'
 
-                const [profile]=await db.query('Select * from profiles where user_email=?',[email]);
+                await db.query('INSERT INTO refresh_tokens (user_email, token, expires_at) VALUES (?, ?, ?)', [user.email, refreshToken, formattedExpiresAt]);
                 
+                const [profile]=await db.query('Select * from profiles where user_email=?',[email]);
                 if(profile.length>0){
                     const role=profile[0].role;
                     res.json({success:true, message: 'Login successful!' ,accessToken,refreshToken,profile:true, role});

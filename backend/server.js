@@ -33,10 +33,10 @@ app.use(express.json());
 
 app.use('/api', routes);
     
-app.get('*', (req, res) => {
-    console.log(`Redirecting undefined route: ${req.originalUrl} to home.`);
-    res.redirect('/');
-});
+// app.get('*', (req, res) => {
+//     console.log(`Redirecting undefined route: ${req.originalUrl} to home.`);
+//     res.redirect('/');
+// });
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
